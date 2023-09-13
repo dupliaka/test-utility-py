@@ -26,7 +26,8 @@ def json_to_csv(json_file, csv_file):
             score = item.get('primaryMetric').get("score")
             row = [benchmark, params, score_unit, score]
             for dataset in data[1:]:
-                score_item = [i for i in dataset if i.get('benchmark') == benchmark and i.get('params') == params]
+                score_item = [i for i in dataset if i.get('benchmark') == benchmark
+                              and set(i.get('params')) <= set(params)]
                 ds_score = score_item[0].get('primaryMetric').get("score")
                 row.append(ds_score)
                 change = (ds_score / score - 1) * 100
