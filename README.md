@@ -22,4 +22,4 @@ For each additional json passed as an argument it will parse the same labels and
 
 `docker run -it --rm --name report_script -v "$PWD":/usr/src/myapp -w /usr/src/myapp python:3 python compare_jsons.py jmh data/baseline.json data/newline.json`
 
-Creates `report.csv` in project directory
+Creates `change_report.csv` in project directory

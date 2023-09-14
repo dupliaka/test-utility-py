@@ -62,6 +62,6 @@ def get_input(it, source):
 
 input_type = sys.argv[1]
 source_names = sys.argv[2:]
-csv_file = 'report.csv'
+csv_file = 'change_report.csv'
 reports_data = get_input(input_type, source_names)
 compare_jmh_reports(reports_data, source_names)
