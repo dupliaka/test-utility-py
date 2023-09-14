@@ -3,7 +3,7 @@ import csv
 import sys
 
 
-def json_to_csv(json_file, csv_file):
+def jsons_to_csv_report(json_file, csv_file):
     data = []
     for file_content in json_file:
         # Read JSON file
@@ -40,5 +40,5 @@ def json_to_csv(json_file, csv_file):
 
 
 sys_args = sys.argv[1:]
-csv_file = 'report.csv'
-json_to_csv(sys_args, csv_file)
+csv_file = 'report_compare_jsons.csv'
+jsons_to_csv_report(sys_args, csv_file)
