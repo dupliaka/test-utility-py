@@ -2,21 +2,52 @@ import json
 import csv
 import sys
 
+import requests
 
-def jsons_to_csv_report(json_file, csv_file):
+
+def get_by_url(urls):
     data = []
-    for file_content in json_file:
+
+    for url in urls:
+        # Send an HTTP GET request to the URL without SSL certificate verification
+        response = requests.get(url, verify=False)
+
+        if response.status_code == 200:
+            data.append(response.text)
+        else:
+            print(f"Failed to retrieve data. Status code: {response.status_code}")
+
+    return data
+
+
+def get_horreum_input(urls):
+    horreum_reports_json = get_by_url(urls)
+    extracted_jmh_report = []
+
+    for report in horreum_reports_json:
+        horreum_data = json.loads(report)
+        jmh_report = horreum_data.get('jmhData')
+        extracted_jmh_report.append(jmh_report)
+    return extracted_jmh_report
+
+
+def get_file_input(json_files):
+    data = []
+    for file_content in json_files:
         # Read JSON file
         with open(file_content, 'r') as file:
             data.append(json.load(file))
+    return data
 
+
+def compare_jmh_reports(data, line_name):
     # Write CSV file
     with open(csv_file, 'w', newline='') as file:
         writer = csv.writer(file)
-        header = ['benchmark', 'params', 'unit', 'Baseline Score: ' + json_file[0]]
-        for jf in json_file[1:]:
+        header = ['benchmark', 'params', 'unit', 'Baseline Score: ' + line_name[0]]
+        for jf in line_name[1:]:
             header.append("Newline Score: " + jf)
-            header.append("Diff: " + json_file[0] + " vs " + jf)
+            header.append("%Diff: " + line_name[0] + " vs " + jf)
 
         writer.writerow(header)  # Write CSV header
 
@@ -36,9 +67,21 @@ def jsons_to_csv_report(json_file, csv_file):
 
             writer.writerow(row)
 
-    print(f'Successfully converted {json_file} to {csv_file}.')
+    print(f'Successfully converted {line_name} to {csv_file}.')
 
 
-sys_args = sys.argv[1:]
-csv_file = 'report_compare_jsons.csv'
-jsons_to_csv_report(sys_args, csv_file)
+def get_input(it ,source):
+    if it == "jmh_json":
+        return get_file_input(source)
+    elif it == "horreum":
+        return get_horreum_input(source)
+    else:
+        print("No such input type" + it)
+
+
+
+input_type = sys.argv[1]
+source_names = sys.argv[2:]
+csv_file = 'report.csv'
+reports_data = get_input(input_type, source_names)
+compare_jmh_reports(reports_data, source_names)
