@@ -2,31 +2,13 @@ import json
 import csv
 import sys
 
-import requests
 
-
-def get_by_url(urls):
-    data = []
-
-    for url in urls:
-        # Send an HTTP GET request to the URL without SSL certificate verification
-        response = requests.get(url, verify=False)
-
-        if response.status_code == 200:
-            data.append(response.text)
-        else:
-            print(f"Failed to retrieve data. Status code: {response.status_code}")
-
-    return data
-
-
-def get_horreum_input(urls):
-    horreum_reports_json = get_by_url(urls)
+def get_horreum_input(json_files):
+    horreum_reports_json = get_file_input(json_files)
     extracted_jmh_report = []
 
     for report in horreum_reports_json:
-        horreum_data = json.loads(report)
-        jmh_report = horreum_data.get('jmhData')
+        jmh_report = report.get('jmhData')
         extracted_jmh_report.append(jmh_report)
     return extracted_jmh_report
 
@@ -38,7 +20,6 @@ def get_file_input(json_files):
         with open(file_content, 'r') as file:
             data.append(json.load(file))
     return data
-
 
 def compare_jmh_reports(data, line_name):
     # Write CSV file
@@ -70,14 +51,13 @@ def compare_jmh_reports(data, line_name):
     print(f'Successfully converted {line_name} to {csv_file}.')
 
 
-def get_input(it ,source):
-    if it == "jmh_json":
+def get_input(it, source):
+    if it == "jmh":
         return get_file_input(source)
     elif it == "horreum":
         return get_horreum_input(source)
     else:
         print("No such input type" + it)
-
 
 
 input_type = sys.argv[1]

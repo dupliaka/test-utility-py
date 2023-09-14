@@ -12,14 +12,14 @@ For each additional json passed as an argument it will parse the same labels and
 #### Development
 ###### Compare json files
 
-`python compare_jsons.py jmh_json data/baseline.json data/newline.json` 
+`python compare_jsons.py jmh data/baseline.json data/newline.json` 
 
 ###### Compare by horreum urls
 
-`python compare_jsons.py horreum https://horreum.corp.redhat.com/api/run/20148/data https://horreum.corp.redhat.com/api/run/20119/data` 
+` python compare_jsons.py horreum data/baselineHorreum.json data/newlineHorreum.json`
 
 #### Docker
 
-`docker run -it --rm --name report_script -v "$PWD":/usr/src/myapp -w /usr/src/myapp python:3 python compare_jsons.py jmh_json data/baseline.json data/newline.json`
+`docker run -it --rm --name report_script -v "$PWD":/usr/src/myapp -w /usr/src/myapp python:3 python compare_jsons.py jmh data/baseline.json data/newline.json`
 
-Creates `report_compare_jsons.csv` in project directory
+Creates `report.csv` in project directory
