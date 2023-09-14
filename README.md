@@ -8,6 +8,12 @@ For each additional json passed as an argument it will parse the same labels and
 
 ### Usage
 
+#### Development
+
 `python compare_jsons.py baseline.json newline.json` 
+
+#### Docker
+
+`docker run -it --rm --name my-running-script -v "$PWD":/usr/src/myapp -w /usr/src/myapp python:3 python compare_jsons.py baseline.json newline.json`
 
 Creates `report.csv` in project directory

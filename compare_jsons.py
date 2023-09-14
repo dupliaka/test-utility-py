@@ -2,6 +2,7 @@ import json
 import csv
 import sys
 
+
 def json_to_csv(json_file, csv_file):
     data = []
     for file_content in json_file:
@@ -12,10 +13,10 @@ def json_to_csv(json_file, csv_file):
     # Write CSV file
     with open(csv_file, 'w', newline='') as file:
         writer = csv.writer(file)
-        header = ['benchmark', 'params', 'unit', 'baseline Score' + json_file[0]]
+        header = ['benchmark', 'params', 'unit', 'Baseline Score: ' + json_file[0]]
         for jf in json_file[1:]:
-            header.append("Score: " + jf)
-            header.append("Diff: " + json_file[0] + "vs" + jf)
+            header.append("Newline Score: " + jf)
+            header.append("Diff: " + json_file[0] + " vs " + jf)
 
         writer.writerow(header)  # Write CSV header
 
@@ -36,6 +37,7 @@ def json_to_csv(json_file, csv_file):
             writer.writerow(row)
 
     print(f'Successfully converted {json_file} to {csv_file}.')
+
 
 sys_args = sys.argv[1:]
 csv_file = 'report.csv'
