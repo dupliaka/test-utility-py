@@ -21,6 +21,7 @@ def get_file_input(json_files):
             data.append(json.load(file))
     return data
 
+
 def compare_jmh_reports(data, line_name):
     # Write CSV file
     with open(csv_file, 'w', newline='') as file:
@@ -60,8 +61,9 @@ def get_input(it, source):
         print("No such input type" + it)
 
 
-input_type = sys.argv[1]
-source_names = sys.argv[2:]
-csv_file = 'change_report.csv'
-reports_data = get_input(input_type, source_names)
-compare_jmh_reports(reports_data, source_names)
+if __name__ == "__main__":
+    input_type = sys.argv[1]
+    source_names = sys.argv[2:]
+    csv_file = 'change_report.csv'
+    reports_data = get_input(input_type, source_names)
+    compare_jmh_reports(reports_data, source_names)
